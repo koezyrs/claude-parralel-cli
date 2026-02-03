@@ -81,10 +81,10 @@ function openWindowsTerminal(workingDir, command, preference) {
   if (preference === 'auto' || preference === 'tabby') {
     const tabbyPath = getTabbyPath();
     if (tabbyPath) {
-      const proc = spawn(tabbyPath, ['--directory', workingDir, '--', 'cmd', '/k', command], {
+      // Tabby with --new-tab and --command
+      const proc = spawn(tabbyPath, ['--new-tab', '--command', `cd /d ${workingDir} && claude`], {
         detached: true,
-        stdio: 'ignore',
-        shell: true
+        stdio: 'ignore'
       });
       proc.unref();
       return { type: 'tabby', success: true };
