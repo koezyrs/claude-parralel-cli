@@ -81,8 +81,9 @@ function openWindowsTerminal(workingDir, command, preference) {
   if (preference === 'auto' || preference === 'tabby') {
     const tabbyPath = getTabbyPath();
     if (tabbyPath) {
-      // Tabby with --new-tab and --command
-      const proc = spawn(tabbyPath, ['--new-tab', '--command', `cd /d ${workingDir} && claude`], {
+      // Use Tabby with cmd /c to run the command
+      const cmdScript = `cmd /c "cd /d ${workingDir} && claude"`;
+      const proc = spawn(tabbyPath, ['--new-tab', cmdScript], {
         detached: true,
         stdio: 'ignore'
       });
