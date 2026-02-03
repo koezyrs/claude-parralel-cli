@@ -81,19 +81,21 @@ function openWindowsTerminal(workingDir, command, preference) {
   if (preference === 'auto' || preference === 'tabby') {
     const tabbyPath = getTabbyPath();
     if (tabbyPath) {
-      // Use Tabby's open command to open in directory, then paste claude
+      // Use Tabby's open command to open in directory, then paste claude via stdin
       const openProc = spawn(tabbyPath, ['open', workingDir], {
         detached: true,
         stdio: 'ignore'
       });
       openProc.unref();
 
-      // Small delay to let the tab open, then paste the command
+      // Small delay to let the tab open, then paste the command via stdin
       setTimeout(() => {
-        spawn(tabbyPath, ['paste', command], {
+        const pasteProc = spawn(tabbyPath, ['paste'], {
           detached: true,
-          stdio: 'ignore'
+          stdio: 'pipe'
         });
+        pasteProc.stdin.write(command + '\n');
+        pasteProc.stdin.end();
       }, 500);
 
       return { type: 'tabby', success: true };
