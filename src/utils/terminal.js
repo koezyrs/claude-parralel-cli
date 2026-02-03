@@ -81,13 +81,21 @@ function openWindowsTerminal(workingDir, command, preference) {
   if (preference === 'auto' || preference === 'tabby') {
     const tabbyPath = getTabbyPath();
     if (tabbyPath) {
-      // Use Tabby's run command with cmd /k to keep terminal open
-      const cmdScript = `cmd /k "cd /d ${workingDir} && claude"`;
-      const proc = spawn(tabbyPath, ['run', cmdScript], {
+      // Use Tabby's open command to open in directory, then paste claude
+      const openProc = spawn(tabbyPath, ['open', workingDir], {
         detached: true,
         stdio: 'ignore'
       });
-      proc.unref();
+      openProc.unref();
+
+      // Small delay to let the tab open, then paste the command
+      setTimeout(() => {
+        spawn(tabbyPath, ['paste', command], {
+          detached: true,
+          stdio: 'ignore'
+        });
+      }, 500);
+
       return { type: 'tabby', success: true };
     }
   }
