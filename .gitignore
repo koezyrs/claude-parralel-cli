@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Config files (user-specific)
+.cpw.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test coverage
+coverage/
+
+# Build output
+dist/
+build/
+
+# Environment
+.env
+.env.local
