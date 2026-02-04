@@ -1,6 +1,27 @@
 import { execSync, exec } from 'child_process';
 import path from 'path';
+import { platform } from 'os';
 import { findProjectRoot } from './config.js';
+
+/**
+ * Force remove directory using OS-native commands (fallback for locked files)
+ */
+export function forceRemoveDir(dirPath) {
+  if (platform() === 'win32') {
+    // Windows: use PowerShell with escaped path
+    const escapedPath = dirPath.replace(/"/g, '\\"');
+    execSync(`powershell -Command "Remove-Item -Path \\"${escapedPath}\\" -Recurse -Force"`, {
+      encoding: 'utf-8',
+      stdio: 'pipe'
+    });
+  } else {
+    // Unix-like: use rm -rf
+    execSync(`rm -rf "${dirPath}"`, {
+      encoding: 'utf-8',
+      stdio: 'pipe'
+    });
+  }
+}
 
 /**
  * Execute a git command and return the output

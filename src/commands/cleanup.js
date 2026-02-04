@@ -7,7 +7,8 @@ import {
   getFeatureWorktrees,
   removeWorktree,
   deleteBranch,
-  pruneWorktrees
+  pruneWorktrees,
+  forceRemoveDir
 } from '../utils/git.js';
 
 export async function cleanupCommand(features, options) {
@@ -99,8 +100,22 @@ export async function cleanupCommand(features, options) {
 
       results.push({ ...wt, success: true });
     } catch (error) {
-      spinner.fail(`Failed to remove worktree ${wt.branch}: ${error.message}`);
-      results.push({ ...wt, success: false, error: error.message });
+      // Check for permission denied error (Windows-specific issue)
+      if (error.message && error.message.toLowerCase().includes('permission denied')) {
+        spinner.warn(`Git worktree remove failed: permission denied. Using fallback...`);
+        try {
+          forceRemoveDir(wt.path);
+          pruneWorktrees(gitRoot);
+          spinner.succeed(`Removed worktree ${chalk.cyan(wt.branch)} (fallback method)`);
+          results.push({ ...wt, success: true });
+        } catch (fallbackError) {
+          spinner.fail(`Failed to remove worktree ${wt.branch}: ${fallbackError.message}`);
+          results.push({ ...wt, success: false, error: fallbackError.message });
+        }
+      } else {
+        spinner.fail(`Failed to remove worktree ${wt.branch}: ${error.message}`);
+        results.push({ ...wt, success: false, error: error.message });
+      }
     }
   }
 
