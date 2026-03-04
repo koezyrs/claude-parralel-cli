@@ -74,7 +74,7 @@ export function openTerminal(workingDir, command, options = {}) {
  */
 function openWindowsTerminal(workingDir, command, preference) {
   // Windows Terminal
-  if ((preference === "auto" || preference === "wt") && commandExists("wt")) {
+  if ((preference === "auto" || preference === "wt" || preference === "windows-terminal") && commandExists("wt")) {
     const proc = spawn(
       "wt",
       ["-w", "0", "-d", workingDir, "cmd", "/k", command],

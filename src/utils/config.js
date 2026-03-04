@@ -26,9 +26,9 @@ function validateConfigSchema(config) {
     );
   }
 
-  if (typeof config.agent !== 'string' || !['claude', 'codex'].includes(config.agent)) {
+  if (typeof config.agent !== 'string' || !['claude', 'codex', 'opencode'].includes(config.agent)) {
     throw new Error(
-      'Invalid "agent" in .cpc.json. Supported values are "claude" or "codex".'
+      'Invalid "agent" in .cpc.json. Supported values are "claude", "codex", or "opencode".'
     );
   }
 }

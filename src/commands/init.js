@@ -51,7 +51,7 @@ export async function initCommand() {
       type: 'list',
       name: 'agent',
       message: 'Default assistant to start in worktrees:',
-      choices: ['claude', 'codex'],
+      choices: ['claude', 'codex', 'opencode'],
       default: DEFAULT_CONFIG.agent
     },
     {
@@ -65,6 +65,12 @@ export async function initCommand() {
       name: 'copyCodexConfig',
       message: 'Copy .codex/ folder to new worktrees?',
       default: DEFAULT_CONFIG.copyConfig.codex
+    },
+    {
+      type: 'confirm',
+      name: 'copyOpenCodeConfig',
+      message: 'Copy .opencode/ folder to new worktrees?',
+      default: DEFAULT_CONFIG.copyConfig.opencode
     },
     {
       type: 'list',
@@ -81,7 +87,8 @@ export async function initCommand() {
     agent: answers.agent,
     copyConfig: {
       claude: answers.copyClaudeConfig,
-      codex: answers.copyCodexConfig
+      codex: answers.copyCodexConfig,
+      opencode: answers.copyOpenCodeConfig
     },
     terminal: answers.terminal
   };
@@ -95,6 +102,7 @@ export async function initCommand() {
   console.log(chalk.dim(`  Default assistant: ${answers.agent}`));
   console.log(chalk.dim(`  Copy .claude config: ${answers.copyClaudeConfig}`));
   console.log(chalk.dim(`  Copy .codex config: ${answers.copyCodexConfig}`));
+  console.log(chalk.dim(`  Copy .opencode config: ${answers.copyOpenCodeConfig}`));
   console.log(chalk.dim(`  Terminal: ${answers.terminal}`));
   console.log(chalk.cyan(`\nRun \`${commandText('create <feature-name>')}\` to create your first worktree.`));
 }

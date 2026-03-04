@@ -25,6 +25,10 @@ export function copyCodexConfig(sourceDir, destDir) {
   return copyAgentConfig(sourceDir, destDir, '.codex');
 }
 
+export function copyOpenCodeConfig(sourceDir, destDir) {
+  return copyAgentConfig(sourceDir, destDir, '.opencode');
+}
+
 /**
  * Recursively copy a directory
  */
@@ -60,4 +64,8 @@ export function hasClaudeConfig(dir) {
 
 export function hasCodexConfig(dir) {
   return hasAgentConfig(dir, '.codex');
+}
+
+export function hasOpenCodeConfig(dir) {
+  return hasAgentConfig(dir, '.opencode');
 }

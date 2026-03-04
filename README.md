@@ -1,6 +1,6 @@
 # Code Parallel CLI (`cpc`)
 
-A CLI tool to automate parallel AI coding assistant workflows using git worktrees. Run multiple assistants (Claude or Codex) simultaneously on different features in isolated environments.
+A CLI tool to automate parallel AI coding assistant workflows using git worktrees. Run multiple assistants (Claude, Codex, or OpenCode) simultaneously on different features in isolated environments.
 
 ## Why?
 
@@ -73,7 +73,8 @@ Running `cpc init` creates a `.cpc.json` file in your project root:
   "agent": "claude",
   "copyConfig": {
     "claude": true,
-    "codex": true
+    "codex": true,
+    "opencode": true
   },
   "terminal": "auto"
 }
@@ -85,10 +86,11 @@ Running `cpc init` creates a `.cpc.json` file in your project root:
 |--------|-------------|---------|
 | `featuresDir` | Directory where worktrees are created (relative to project) | `../dev-worktrees` |
 | `mainBranch` | Branch to create features from | `main` |
-| `agent` | Assistant command to start: `claude` or `codex` | `claude` |
+| `agent` | Assistant command to start: `claude`, `codex`, or `opencode` | `claude` |
 | `copyConfig.claude` | Copy `.claude/` folder to new worktrees | `true` |
 | `copyConfig.codex` | Copy `.codex/` folder to new worktrees | `true` |
-| `terminal` | Terminal to use: `auto`, `wt`, `cmd`, `tabby`, `powershell` | `auto` |
+| `copyConfig.opencode` | Copy `.opencode/` folder to new worktrees | `true` |
+| `terminal` | Terminal to use: `auto`, `wt`, `windows-terminal`, `cmd`, `tabby`, `powershell` | `auto` |
 
 ### Windows long-path troubleshooting
 
@@ -137,7 +139,7 @@ cpc cleanup --all -d
 
 - Node.js >= 18
 - Git
-- Claude Code CLI (`claude`) or Codex CLI (`codex`) based on your `agent` setting
+- Claude Code CLI (`claude`), Codex CLI (`codex`), or OpenCode CLI (`opencode`) based on your `agent` setting
 
 ## License
 

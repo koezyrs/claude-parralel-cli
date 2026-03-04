@@ -16,8 +16,14 @@ export async function startCommand(features) {
     process.exit(1);
   }
   const featureWorktrees = getFeatureWorktrees(featuresDir, gitRoot);
-  const assistant = config.agent === 'codex' ? 'codex' : 'claude';
-  const assistantLabel = assistant === 'codex' ? 'Codex' : 'Claude';
+  const assistantConfig = {
+    claude: { command: 'claude', label: 'Claude' },
+    codex: { command: 'codex', label: 'Codex' },
+    opencode: { command: 'opencode', label: 'OpenCode' }
+  };
+  const selectedAssistant = assistantConfig[config.agent] || assistantConfig.claude;
+  const assistant = selectedAssistant.command;
+  const assistantLabel = selectedAssistant.label;
 
   if (featureWorktrees.length === 0) {
     console.log(chalk.yellow('No feature worktrees found.'));

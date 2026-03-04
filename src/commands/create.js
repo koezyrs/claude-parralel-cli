@@ -5,7 +5,7 @@ import path from 'path';
 import { getCommandContext } from '../utils/command-context.js';
 import { commandText } from '../utils/messages.js';
 import { createWorktree, branchExists, ensureLongPathsEnabled } from '../utils/git.js';
-import { copyClaudeConfig, copyCodexConfig } from '../utils/claude.js';
+import { copyClaudeConfig, copyCodexConfig, copyOpenCodeConfig } from '../utils/claude.js';
 
 export async function createCommand(features) {
   let gitRoot;
@@ -64,6 +64,9 @@ export async function createCommand(features) {
         }
         if (config.copyConfig.codex && copyCodexConfig(config._configDir, worktreePath)) {
           copiedConfigs.push('.codex');
+        }
+        if (config.copyConfig.opencode && copyOpenCodeConfig(config._configDir, worktreePath)) {
+          copiedConfigs.push('.opencode');
         }
 
         if (copiedConfigs.length > 0) {

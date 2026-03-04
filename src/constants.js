@@ -7,9 +7,10 @@ export const DEFAULT_CONFIG = {
   agent: 'claude',
   copyConfig: {
     claude: true,
-    codex: true
+    codex: true,
+    opencode: true
   },
   terminal: 'auto'
 };
 
-export const TERMINAL_OPTIONS = ['auto', 'wt', 'cmd', 'tabby', 'powershell'];
+export const TERMINAL_OPTIONS = ['auto', 'wt', 'windows-terminal', 'cmd', 'tabby', 'powershell'];
